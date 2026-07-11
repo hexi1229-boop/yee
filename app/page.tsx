@@ -209,6 +209,8 @@ const storyPages: StoryPage[] = [
 ];
 
 const lastPageIndex = storyPages.length - 1;
+const assetBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const assetPath = (path: string) => `${assetBasePath}${path}`;
 
 export default function Home() {
   const [pageIndex, setPageIndex] = useState(0);
@@ -218,6 +220,7 @@ export default function Home() {
   const [notice, setNotice] = useState("");
   const touchStart = useRef<number | null>(null);
   const currentPage = storyPages[pageIndex];
+  const currentImage = assetPath(currentPage.image);
 
   const goToPage = useCallback((target: number) => {
     const nextIndex = Math.max(0, Math.min(lastPageIndex, target));
@@ -336,7 +339,7 @@ export default function Home() {
     >
       <div
         className="ambient-art"
-        style={{ backgroundImage: `url(${currentPage.image})` }}
+        style={{ backgroundImage: `url(${currentImage})` }}
         aria-hidden="true"
       />
       <div className="ambient-wash" aria-hidden="true" />
@@ -383,7 +386,7 @@ export default function Home() {
           <button type="button" className="icon-button utility" onClick={toggleFullscreen} aria-label={isFullscreen ? "退出全屏" : "进入全屏"}>
             {isFullscreen ? "⊡" : "⛶"}
           </button>
-          <a className="icon-button utility" href="/storybook/wuyou-chengwai.pdf" aria-label="导出 PDF" title="导出 PDF">
+          <a className="icon-button utility" href={assetPath("/storybook/wuyou-chengwai.pdf")} aria-label="导出 PDF" title="导出 PDF">
             ⇩
           </a>
           <button type="button" className="icon-button utility" onClick={shareStory} aria-label="分享故事">
@@ -400,7 +403,7 @@ export default function Home() {
         <article key={pageIndex} className={`story-book turn-${turnDirection}`}>
           <div className="art-page">
             <img
-              src={currentPage.image}
+              src={currentImage}
               alt={currentPage.alt}
               style={{ objectPosition: currentPage.focal ?? "center" }}
             />

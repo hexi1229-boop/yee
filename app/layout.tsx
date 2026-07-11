@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hexi1229-boop.github.io/yee";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "无忧城外 · 城里没有梦",
   description: "一部关于梦、失去与看见的原创全年龄视觉故事。",
   openGraph: {
